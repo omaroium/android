@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
         if (user!=null){
-            username = findViewById(R.id.tvUserName);
-            email = findViewById(R.id.tvUserEmail);
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            View headerView = navigationView.getHeaderView(0);
+            username = headerView.findViewById(R.id.tvUserName);
+            email = headerView.findViewById(R.id.tvUserEmail);
             username.setText(user.getDisplayName());
             email.setText(user.getEmail());
 
