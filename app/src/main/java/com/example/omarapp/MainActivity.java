@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
     TextView username,email;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new info()).commit();
             }
             else if(R.id.nav_logout==item.getItemId()){
+                mAuth.signOut();
                 startActivity(new Intent(this,LoginActivity.class));
                 Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
             }
