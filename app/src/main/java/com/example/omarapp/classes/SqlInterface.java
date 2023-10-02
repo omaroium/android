@@ -1,6 +1,6 @@
 package com.example.omarapp.classes;
 
-import android.database.Cursor;
+        import android.database.Cursor;
 
 public interface SqlInterface {
 
