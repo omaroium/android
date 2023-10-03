@@ -12,23 +12,23 @@ public class TablesString {
         public static final String COLUMN_PLACE_NAME = "PlaceName";
         public static final String COLUMN_PLACE_DESCRIPTION = "Description";
         public static final String COLUMN_PLACE_IMAGE = "PlaceImage";
-        public static final String COLUMN_PRODUCT_STOCK = "Stock";
+
         public static final String COLUMN_MAXVISITS ="MaxVisits";
 
         public static final String COLUMN_CURRENT_VISITS="Current_visits";
 
-        public static final String COLUMN_USER_ID="USER_ID";
 
-        public static final String TABLE_SALE="SALE";
 
-        public static final String COLUMN_SALE_PROD_ID="PROD_ID";
+        public static final String TIEOFTOUR="TIMEOFTOUR";
 
-        public static final String COLUMN_SALE_USER_ID="USER_ID";
+        public static final String COLUMN_DATE="DATE";
 
-        public static final String COLUMN_SALE_PRICE="SALE_PRICE";
+        public static final String COLUMN_HOUROFSTART="HOUR_OF_START";
+
+        public static final String COLUMN_TOOLS="TOOLS";
 
         public static final String COLUMN_PRICE="PRICE";
-        public static final String COLUMN_PRICE="PRICE";
+        public static final String COLUMN_VISITS="VISITS";
 
 
 

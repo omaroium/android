@@ -9,9 +9,19 @@ public class QueryString {
                     ProductTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     ProductTable.COLUMN_PLACE_NAME + " TEXT," +
                     ProductTable.COLUMN_PLACE_DESCRIPTION + " TEXT," +
-                    ProductTable.COLUMN_PRODUCT_STOCK + " INTEGER," +
+                    ProductTable.COLUMN_MAXVISITS + " INTEGER," +
+                    ProductTable.COLUMN_PLACE_IMAGE + " BLOB);"+
+                    ProductTable.COLUMN_CURRENT_VISITS+"INTEGER," +
+                    ProductTable.TIEOFTOUR+" STRING,"
+                    +ProductTable.COLUMN_DATE+"DATE,"+
+                    ProductTable.COLUMN_HOUROFSTART+"STRING,"+
+                    ProductTable.COLUMN_PRICE+" DOUBLE,"+
+                    ProductTable.COLUMN_TOOLS+" STRING,"+
+                    ProductTable.COLUMN_VISITS+" INTEGER,"
 
-                    ProductTable.COLUMN_PLACE_IMAGE + " BLOB);";
+
+
+                    ;
 
     public static final String SQL_CREATE_CART =
             "CREATE TABLE " + CartTable.TABLE_CART + " (" +
