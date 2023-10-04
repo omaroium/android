@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.example.omarapp.classes.place;
 import com.example.omarapp.database.DBHelper;
@@ -24,27 +22,27 @@ import java.io.IOException;
 public class AddProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static int RESULT_LOAD_IMAGE = 1;
-    EditText etname,etdisc,etstock,etsaleprice,etbuyprice;
+    EditText etname,et,etstock,etsaleprice,etbuyprice;
     ImageButton imageButton;
     Button btadd;
     place p;
     Uri selectedImageUri;
     DBHelper dbHelper;
-    ProgressBar addItemProgressBar;
+    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
         etname = findViewById(R.id.etProdName);
-        etdisc = findViewById(R.id.etDesc);
-        etstock = findViewById(R.id.etStock);
-        etsaleprice = findViewById(R.id.etSalePrice);
-        etbuyprice = findViewById(R.id.etBuyPrice);
+        etdisc = findViewById(R.id.etPlace);
+        etstock = findViewById(R.id.etDate);
+        etsaleprice = findViewById(R.id.etPrice);
+        etbuyprice = findViewById(R.id.etTools);
         imageButton = findViewById(R.id.imageButton);
         btadd = findViewById(R.id.addButton);
         btadd.setOnClickListener(this);
         imageButton.setOnClickListener(this);
-        addItemProgressBar=findViewById(R.id.addItemProgressBar);
         dbHelper = new DBHelper(this);
         dbHelper.OpenWriteAble();
 
@@ -52,8 +50,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.addButton){
-            addItemProgressBar.setVisibility(View.VISIBLE);
-            dbHelper = new DBHelper(this); 
+            dbHelper = new DBHelper(this);
 
             byte[] data  = imageViewToByte();
             p=new place(etname.getText().toString(),etdisc.getText().toString(),

@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Arrays;
 
 import static com.example.omarapp.database.TablesString.ProductTable.*;
@@ -12,30 +14,32 @@ import static com.example.omarapp.database.TablesString.ProductTable.*;
 
 public class place implements SqlInterface
 {
+
     private String Name;
-
+    private String Place;
+    private Date date;
+    private Time HourOfStart;
     private double TimeOfTour;
-     private String Date;
-     private String HourOfStart;
-    private int VisitNum;
 
+    private double Price;
+
+    private int VisitNum;
     private int Pid;
     private int MaxVisit;
     private int CurrentVisit;
-    private String Place;
 
-    private double Price;
-    private String [] Tools;
+
+    private String  Tools;
 
 
     protected byte[] imageByte;
-    public place(int visitnum ,String Name,int Pid,double TimeOfTour,String Date,String HourOfStart,int MaxVisit,int CurrentVisit,String Place,double Price,String[] Tools
+    public place(int visitnum ,String Name,double TimeOfTour,Date date,Time HourOfStart,int MaxVisit,int CurrentVisit,String Place,double Price,String Tools
     ,byte[]imageByte) {
         this.VisitNum = visitnum;
         this.Name=Name;
         this.Pid=Pid;
         this.TimeOfTour=TimeOfTour;
-        this.Date=Date;
+        this.date=date;
         this.HourOfStart=HourOfStart;
         this.MaxVisit=MaxVisit;
         this.CurrentVisit=CurrentVisit;
@@ -46,6 +50,8 @@ public class place implements SqlInterface
 
 
     }
+
+
 
     public long Add(SQLiteDatabase db) {
         // Create a new map of values, where column names are the keys
@@ -58,9 +64,9 @@ public class place implements SqlInterface
         values.put(COLUMN_PLACE_IMAGE, imageByte);
         values.put(COLUMN_CURRENT_VISITS, CurrentVisit);
         values.put(TIEOFTOUR, TIEOFTOUR);
-        values.put(COLUMN_DATE, Date);
-        values.put(COLUMN_HOUROFSTART, HourOfStart);
-        values.put(COLUMN_TOOLS, Arrays.toString(Tools));
+        values.put(COLUMN_DATE, date.getTime());
+        values.put(COLUMN_HOUROFSTART, HourOfStart.getTime());
+        values.put(COLUMN_TOOLS, Tools);
 
 
 
@@ -93,7 +99,7 @@ public class place implements SqlInterface
         values.put(TIEOFTOUR, TIEOFTOUR);
         values.put(COLUMN_DATE, Date);
         values.put(COLUMN_HOUROFSTART, HourOfStart);
-        values.put(COLUMN_TOOLS, Arrays.toString(Tools));
+        values.put(COLUMN_TOOLS, Tools);
 
 // Which row to update, based on the title
         String selection = BaseColumns._ID + " LIKE ?";
@@ -138,4 +144,51 @@ public class place implements SqlInterface
     }
 
 
+    public String getName() {
+        return Name;
+    }
+
+    public double getTimeOfTour() {
+        return TimeOfTour;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public String getHourOfStart() {
+        return HourOfStart;
+    }
+
+    public int getVisitNum() {
+        return VisitNum;
+    }
+
+    public int getPid() {
+        return Pid;
+    }
+
+    public int getMaxVisit() {
+        return MaxVisit;
+    }
+
+    public int getCurrentVisit() {
+        return CurrentVisit;
+    }
+
+    public String getPlace() {
+        return Place;
+    }
+
+    public double getPrice() {
+        return Price;
+    }
+
+    public String getTools() {
+        return Tools;
+    }
+
+    public byte[] getImageByte() {
+        return imageByte;
+    }
 }
