@@ -33,16 +33,14 @@ public class place implements SqlInterface
 
 
     protected byte[] imageByte;
-    public place(int visitnum ,String Name,double TimeOfTour,Date date,Time HourOfStart,int MaxVisit,int CurrentVisit,String Place,double Price,String Tools
+    public place(String Name,double TimeOfTour,Date date,Time HourOfStart,int MaxVisit,String Place,double Price,String Tools
     ,byte[]imageByte) {
-        this.VisitNum = visitnum;
+
         this.Name=Name;
-        this.Pid=Pid;
         this.TimeOfTour=TimeOfTour;
         this.date=date;
         this.HourOfStart=HourOfStart;
         this.MaxVisit=MaxVisit;
-        this.CurrentVisit=CurrentVisit;
         this.Place=Place;
         this.Price=Price;
         this.Tools=Tools;
@@ -97,8 +95,8 @@ public class place implements SqlInterface
         values.put(COLUMN_PLACE_IMAGE, imageByte);
         values.put(COLUMN_CURRENT_VISITS, CurrentVisit);
         values.put(TIEOFTOUR, TIEOFTOUR);
-        values.put(COLUMN_DATE, Date);
-        values.put(COLUMN_HOUROFSTART, HourOfStart);
+        values.put(COLUMN_DATE, date.toString());
+        values.put(COLUMN_HOUROFSTART, HourOfStart.toString());
         values.put(COLUMN_TOOLS, Tools);
 
 // Which row to update, based on the title
@@ -152,11 +150,11 @@ public class place implements SqlInterface
         return TimeOfTour;
     }
 
-    public String getDate() {
-        return Date;
+    public Date getDate() {
+        return date;
     }
 
-    public String getHourOfStart() {
+    public Time getHourOfStart() {
         return HourOfStart;
     }
 
