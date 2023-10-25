@@ -49,6 +49,9 @@ public class place implements SqlInterface
 
     }
 
+    public place() {
+
+    }
 
 
     public long Add(SQLiteDatabase db) {
@@ -138,6 +141,83 @@ public class place implements SqlInterface
                 null,
                 null,
                 sortOrder);
+        return c;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setPlace(String place) {
+        Place = place;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setHourOfStart(Time hourOfStart) {
+        HourOfStart = hourOfStart;
+    }
+
+    public void setTimeOfTour(double timeOfTour) {
+        TimeOfTour = timeOfTour;
+    }
+
+    public void setPrice(double price) {
+        Price = price;
+    }
+
+    public void setVisitNum(int visitNum) {
+        VisitNum = visitNum;
+    }
+
+    public void setPid(int pid) {
+        Pid = pid;
+    }
+
+    public void setMaxVisit(int maxVisit) {
+        MaxVisit = maxVisit;
+    }
+
+    public void setCurrentVisit(int currentVisit) {
+        CurrentVisit = currentVisit;
+    }
+
+    public void setTools(String tools) {
+        Tools = tools;
+    }
+
+    public void setImageByte(byte[] imageByte) {
+        this.imageByte = imageByte;
+    }
+
+    public Cursor SelectById(SQLiteDatabase db, String id) {
+        String[] projection = {
+                BaseColumns._ID,
+                COLUMN_PLACE_NAME,
+                COLUMN_PLACE_DESCRIPTION,
+                COLUMN_PLACE_IMAGE,
+                COLUMN_MAXVISITS,
+                COLUMN_CURRENT_VISITS,
+                TIEOFTOUR,
+                COLUMN_DATE,
+                COLUMN_HOUROFSTART,
+                COLUMN_TOOLS,
+                COLUMN_PRICE,
+                COLUMN_VISITS
+        };
+        String selection = BaseColumns._ID + " = ?";
+        String[] selectionArgs = {id};
+
+        Cursor c = db.query(
+                TABLE_PLACE,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null  );
         return c;
     }
 
