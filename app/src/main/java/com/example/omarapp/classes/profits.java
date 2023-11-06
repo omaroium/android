@@ -34,7 +34,7 @@ public class profits implements SqlInterface {
     }
 
     @Override
-    public int Delete(SQLiteDatabase db, int id) {
+    public int Delete(SQLiteDatabase db, String id) {
         String selection = BaseColumns._ID + " LIKE ?";
 // Specify arguments in placeholder order.
         String[] selectionArgs = {id+""};
@@ -43,7 +43,7 @@ public class profits implements SqlInterface {
     }
 
     @Override
-    public int Update(SQLiteDatabase db, int id) {
+    public int Update(SQLiteDatabase db, String id) {
         // New value for one column
         ContentValues values = new ContentValues();
         values.put(COLUMN_SALE_PROD_ID, prodid);

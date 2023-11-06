@@ -7,7 +7,6 @@ import android.provider.BaseColumns;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.Arrays;
 
 import static com.example.omarapp.database.TablesString.ProductTable.*;
 
@@ -77,17 +76,18 @@ public class place implements SqlInterface
     }
 
     @Override
-    public int Delete(SQLiteDatabase db, int id) {
+
+    public int Delete(SQLiteDatabase db, String id) {
         String selection = BaseColumns._ID + " LIKE ?";
 // Specify arguments in placeholder order.
-        String[] selectionArgs = {id+""};
+        String[] selectionArgs = {id};
 // Issue SQL statement.
         return db.delete(TABLE_PLACE, selection, selectionArgs);
 
     }
 
     @Override
-    public int Update(SQLiteDatabase db, int id) {
+    public int Update(SQLiteDatabase db, String id) {
         // New value for one column
         ContentValues values = new ContentValues();
         values.put(COLUMN_PLACE_NAME, Name);

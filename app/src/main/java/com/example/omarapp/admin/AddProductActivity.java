@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,10 +25,17 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_CURRENT_VISITS;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_DATE;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_HOUROFSTART;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_MAXVISITS;
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_DESCRIPTION;
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_IMAGE;
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_NAME;
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PRICE;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_TOOLS;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_VISITS;
+import static com.example.omarapp.database.TablesString.ProductTable.TIEOFTOUR;
 
 public class AddProductActivity extends AppCompatActivity implements View.OnClickListener, CalendarView.OnDateChangeListener {
 
@@ -37,7 +45,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     CalendarView cvdate;
     Button btadd,btupdate,btdelete;
     place p;
-
+    byte[] image;
     boolean SelectedNewImage;
     String selectedId;
     Uri selectedImageUri;
@@ -94,7 +102,11 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             etname.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_PLACE_NAME)));
             etPlace.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_PLACE_DESCRIPTION)));
             etprice.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_PRICE)));
-            etsaleprice.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_PRODUCT_SALEPRICE)));
+            etMaxVisit.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_MAXVISITS)));
+            etTimeofTour.setText(c.getString(c.getColumnIndexOrThrow(TIEOFTOUR)));
+            cvdate.setDate(c.getLong(c.getColumnIndexOrThrow(COLUMN_DATE)));
+            etHourOfStart.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_HOUROFSTART)));
+            ettools.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_TOOLS)));
 
             image = c.getBlob(c.getColumnIndexOrThrow(COLUMN_PLACE_IMAGE));
             Bitmap bm = BitmapFactory.decodeByteArray(image, 0 ,image.length);
@@ -109,7 +121,6 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         if(view.getId()==R.id.addButton){
 
             dbHelper.OpenWriteAble();
-            addItemProgressBar.setVisibility(View.VISIBLE);
             dbHelper = new DBHelper(this);
             Time time=new Time(Integer.parseInt(etHourOfStart.getText().toString()),
                     Integer.parseInt(etMinuteOfStart.getText().toString()),0);
@@ -119,7 +130,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
                     date,time,
                     Integer.parseInt(etMaxVisit.getText().toString()),
                     etPlace.getText().toString(),
-                    Double.parseDouble(etprice.getText().toString()),
+                    Double.parseDouble(etprice.getText().toString()),ettools.getText().toString(),image);
 
                     dbHelper.OpenWriteAble();
             if(p.Add(dbHelper.getDb())>-1){
@@ -132,10 +143,18 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             if(view.getId()==R.id.btUpdate){
                 p.setPid(Integer.parseInt(selectedId));
                 p.setName(etname.getText().toString());
-                p.setProddisc(etPlace.getText().toString());
-                p.setPrice(Double.parseDouble(etbuyprice.getText().toString()));
-                p.setSaleprice(Double.parseDouble(etsaleprice.getText().toString()));
-                p.setStock(Integer.parseInt(etstock.getText().toString()));
+                p.setPlace(etPlace.getText().toString());
+                p.setPrice(Double.parseDouble(etprice.getText().toString()));
+                p.setDate(new Date(cvdate.getDate()));
+                p.setHourOfStart(new Time(Integer.parseInt(etHourOfStart.getText().toString()),Integer.parseInt(etMinuteOfStart.getText().toString()),0));
+                p.setTools(ettools.getText().toString());
+                p.setTimeOfTour(Double.parseDouble(etTimeofTour.getText().toString()));
+                p.setMaxVisit(Integer.parseInt(etMaxVisit.getText().toString()));
+                p.setImageByte(image);
+
+
+
+
                 if(SelectedNewImage)
                     p.setImageByte(imageViewToByte());
                 else
@@ -144,7 +163,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
                 p.Update(dbHelper.getDb(),selectedId);
                 dbHelper.Close();
                 Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this,ShowProduct.class);
+                Intent i = new Intent(this,ShowPlace.class);
                 startActivity(i);
             }
             if(view.getId()==R.id.btDelete){
@@ -152,7 +171,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
                 p.Delete(dbHelper.getDb(),selectedId);
                 dbHelper.Close();
                 Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this,ShowProduct.class);
+                Intent i = new Intent(this,ShowPlace.class);
                 startActivity(i);
             }
 

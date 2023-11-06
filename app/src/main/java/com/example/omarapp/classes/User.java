@@ -27,12 +27,12 @@ public class User implements SqlInterface {
     }
 
     @Override
-    public int Delete(SQLiteDatabase db, int id) {
+    public int Delete(SQLiteDatabase db, String id) {
         return 0;
     }
 
     @Override
-    public int Update(SQLiteDatabase db, int id) {
+    public int Update(SQLiteDatabase db, String id) {
         return 0;
     }
 
