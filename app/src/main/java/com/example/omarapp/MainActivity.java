@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.omarapp.admin.ShowPlace;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     TextView username,email;
     FirebaseAuth mAuth;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.toolbar); //Ignore red line errors
         setSupportActionBar(toolbar);
+        mAuth = FirebaseAuth.getInstance();
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
         if (user!=null){
+
+            if(user.getDisplayName().startsWith("admin:")) {
+                Intent i = new Intent(MainActivity.this, ShowPlace.class);
+                startActivity(i);
+            }
+
 
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             View headerView = navigationView.getHeaderView(0);
@@ -49,9 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(i);
 
         }
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav,
                 R.string.close_nav);
@@ -63,30 +73,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_home);
         }
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if(R.id.nav_home==item.getItemId()){
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new home()).commit();
+        if(R.id.nav_home==item.getItemId()){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new home()).commit();
 
-            }
-            else if(R.id.nav_settings==item.getItemId()){
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new settingsfrag()).commit();
-            }
-            else if(R.id.nav_share==item.getItemId()){
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new cartfrag()).commit();
-            }
-            else if(R.id.nav_about==item.getItemId()){
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new info()).commit();
-            }
-            else if(R.id.nav_logout==item.getItemId()){
-                mAuth.signOut();
-                startActivity(new Intent(this,LoginActivity.class));
-                Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
-            }
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return true;
         }
+        else if(R.id.nav_settings==item.getItemId()){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new settingsfrag()).commit();
+        }
+        else if(R.id.nav_share==item.getItemId()){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new cartfrag()).commit();
+        }
+        else if(R.id.nav_about==item.getItemId()){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new info()).commit();
+        }
+        else if(R.id.nav_logout==item.getItemId()){
+            mAuth.signOut();
+            startActivity(new Intent(this,SigninActivity.class));
+            Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     @Override
     public void onBackPressed() {
@@ -95,5 +104,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 }

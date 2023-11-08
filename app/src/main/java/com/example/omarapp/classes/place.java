@@ -7,6 +7,7 @@ import android.provider.BaseColumns;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Arrays;
 
 import static com.example.omarapp.database.TablesString.ProductTable.*;
 
@@ -32,6 +33,43 @@ public class place implements SqlInterface
 
 
     protected byte[] imageByte;
+
+    @Override
+    public String toString() {
+        return "place{" +
+                "Name='" + Name + '\'' +
+                ", Place='" + Place + '\'' +
+                ", date=" + date +
+                ", HourOfStart=" + HourOfStart +
+                ", TimeOfTour=" + TimeOfTour +
+                ", Price=" + Price +
+                ", VisitNum=" + VisitNum +
+                ", Pid=" + Pid +
+                ", MaxVisit=" + MaxVisit +
+                ", CurrentVisit=" + CurrentVisit +
+                ", Tools='" + Tools + '\'' +
+                ", imageByte=" + Arrays.toString(imageByte) +
+                '}';
+    }
+
+    public place(place p) {
+        this.Pid = p.getPid();
+        this.Name=p.getName();
+        this.Place=p.getPlace();
+        this.date=p.getDate();
+        this.HourOfStart=p.getHourOfStart();
+        this.TimeOfTour=p.getTimeOfTour();
+        this.Price=p.getPrice();
+        this.VisitNum=p.getVisitNum();
+        this.MaxVisit=p.getMaxVisit();
+        this.CurrentVisit=p.getCurrentVisit();
+        this.Tools=p.getTools();
+        this.imageByte=p.getImageByte();
+
+
+
+
+    }
     public place(String Name,double TimeOfTour,Date date,Time HourOfStart,int MaxVisit,String Place,double Price,String Tools
     ,byte[]imageByte) {
 
@@ -51,6 +89,8 @@ public class place implements SqlInterface
     public place() {
 
     }
+
+
 
 
     public long Add(SQLiteDatabase db) {
