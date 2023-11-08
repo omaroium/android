@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -51,7 +53,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     Uri selectedImageUri;
     DBHelper dbHelper;
 
-    Date date;
+    Date date = new Date(0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         btdelete.setOnClickListener(this);
         imageButton.setOnClickListener(this);
         dbHelper = new DBHelper(this);
+    
         Intent i = getIntent();
         if(i.getStringExtra("Selected_Id")==null) {
             btdelete.setVisibility(View.GONE);
@@ -130,7 +133,8 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
                     date,time,
                     Integer.parseInt(etMaxVisit.getText().toString()),
                     etPlace.getText().toString(),
-                    Double.parseDouble(etprice.getText().toString()),ettools.getText().toString(),image);
+                    Double.parseDouble(etprice.getText().toString()),
+                    ettools.getText().toString(),data);
 
                     dbHelper.OpenWriteAble();
             if(p.Add(dbHelper.getDb())>-1){

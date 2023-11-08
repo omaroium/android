@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.omarapp.admin.AddProductActivity;
 import com.example.omarapp.admin.ShowPlace;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (user!=null){
 
             if(user.getDisplayName().startsWith("admin:")) {
-                Intent i = new Intent(MainActivity.this, ShowPlace.class);
+                Intent i = new Intent(MainActivity.this, AddProductActivity.class);
                 startActivity(i);
             }
 
