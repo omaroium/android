@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (user!=null){
 
             if(user.getDisplayName().startsWith("admin:")) {
-                Intent i = new Intent(MainActivity.this, AddProductActivity.class);
+                Intent i = new Intent(MainActivity.this, ShowPlace.class);
                 startActivity(i);
             }
 

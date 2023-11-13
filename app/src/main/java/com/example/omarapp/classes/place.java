@@ -36,20 +36,7 @@ public class place implements SqlInterface
 
     @Override
     public String toString() {
-        return "place{" +
-                "Name='" + Name + '\'' +
-                ", Place='" + Place + '\'' +
-                ", date=" + date +
-                ", HourOfStart=" + HourOfStart +
-                ", TimeOfTour=" + TimeOfTour +
-                ", Price=" + Price +
-                ", VisitNum=" + VisitNum +
-                ", Pid=" + Pid +
-                ", MaxVisit=" + MaxVisit +
-                ", CurrentVisit=" + CurrentVisit +
-                ", Tools='" + Tools + '\'' +
-                ", imageByte=" + Arrays.toString(imageByte) +
-                '}';
+        return Name;
     }
 
     public place(place p) {
@@ -158,7 +145,6 @@ public class place implements SqlInterface
     public Cursor Select(SQLiteDatabase db) {
         String[] projection = {
                 BaseColumns._ID,
-         TABLE_PLACE,
        COLUMN_PLACE_NAME,
          COLUMN_PLACE_DESCRIPTION,
         COLUMN_PLACE_IMAGE,

@@ -13,6 +13,7 @@ import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -71,8 +72,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         etMaxVisit=findViewById(R.id.MaxVisit);
         btadd = findViewById(R.id.addButton);
         btadd.setOnClickListener(this);
-
-
+        SelectedNewImage =false;
         btupdate = findViewById(R.id.btUpdate);
         btupdate.setOnClickListener(this);
         btdelete = findViewById(R.id.btDelete);
@@ -136,50 +136,46 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
                     Double.parseDouble(etprice.getText().toString()),
                     ettools.getText().toString(),data);
 
-                    dbHelper.OpenWriteAble();
+            dbHelper.OpenWriteAble();
             if(p.Add(dbHelper.getDb())>-1){
                 Toast.makeText(this, "Added Successfully", Toast.LENGTH_SHORT).show();
                 dbHelper.Close();
                 Intent i = new Intent(this,ShowPlace.class);
                 startActivity(i);
             }
-
-            if(view.getId()==R.id.btUpdate){
-                p.setPid(Integer.parseInt(selectedId));
-                p.setName(etname.getText().toString());
-                p.setPlace(etPlace.getText().toString());
-                p.setPrice(Double.parseDouble(etprice.getText().toString()));
-                p.setDate(new Date(cvdate.getDate()));
-                p.setHourOfStart(new Time(Integer.parseInt(etHourOfStart.getText().toString()),Integer.parseInt(etMinuteOfStart.getText().toString()),0));
-                p.setTools(ettools.getText().toString());
-                p.setTimeOfTour(Double.parseDouble(etTimeofTour.getText().toString()));
-                p.setMaxVisit(Integer.parseInt(etMaxVisit.getText().toString()));
-                p.setImageByte(image);
-
-
-
-
-                if(SelectedNewImage)
-                    p.setImageByte(imageViewToByte());
-                else
-                    p.setImageByte(image);
-                dbHelper.OpenWriteAble();
-                p.Update(dbHelper.getDb(),selectedId);
-                dbHelper.Close();
-                Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this,ShowPlace.class);
-                startActivity(i);
-            }
-            if(view.getId()==R.id.btDelete){
-                dbHelper.OpenWriteAble();
-                p.Delete(dbHelper.getDb(),selectedId);
-                dbHelper.Close();
-                Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this,ShowPlace.class);
-                startActivity(i);
-            }
-
         }
+        if(view.getId()==R.id.btUpdate){
+            p.setPid(Integer.parseInt(selectedId));
+            p.setName(etname.getText().toString());
+            p.setPlace(etPlace.getText().toString());
+            p.setPrice(Double.parseDouble(etprice.getText().toString()));
+            p.setDate(new Date(cvdate.getDate()));
+            p.setHourOfStart(new Time(Integer.parseInt(etHourOfStart.getText().toString()),Integer.parseInt(etMinuteOfStart.getText().toString()),0));
+            p.setTools(ettools.getText().toString());
+            p.setTimeOfTour(Double.parseDouble(etTimeofTour.getText().toString()));
+            p.setMaxVisit(Integer.parseInt(etMaxVisit.getText().toString()));
+            p.setImageByte(image);
+
+            if(SelectedNewImage) {
+                Log.d("kdsl","psadholih");
+                p.setImageByte(imageViewToByte());
+            }
+            dbHelper.OpenWriteAble();
+            p.Update(dbHelper.getDb(),selectedId);
+            dbHelper.Close();
+            Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(AddProductActivity.this,ShowPlace.class);
+            startActivity(i);
+        }
+        if(view.getId()==R.id.btDelete){
+            dbHelper.OpenWriteAble();
+            p.Delete(dbHelper.getDb(),selectedId);
+            dbHelper.Close();
+            Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this,ShowPlace.class);
+            startActivity(i);
+        }
+
         if(view.getId()==R.id.imageButton){
             Intent gallery = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -206,6 +202,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         if (resultCode == RESULT_OK && requestCode == 1){
             selectedImageUri = data.getData();
             imageButton.setImageURI(selectedImageUri);
+            SelectedNewImage =true;
         }
     }
 
