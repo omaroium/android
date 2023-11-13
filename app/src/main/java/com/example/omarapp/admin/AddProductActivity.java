@@ -101,6 +101,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         p=new place();
         Cursor c = p.SelectById(dbHelper.getDb(),selectedId);
         if(c!=null){
+
             c.moveToFirst();
             etname.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_PLACE_NAME)));
             etPlace.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_PLACE_DESCRIPTION)));
@@ -145,11 +146,16 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             }
         }
         if(view.getId()==R.id.btUpdate){
+            Log.d("hello", "hi");
             p.setPid(Integer.parseInt(selectedId));
             p.setName(etname.getText().toString());
+            Log.d("hello", etname.getText().toString());
             p.setPlace(etPlace.getText().toString());
             p.setPrice(Double.parseDouble(etprice.getText().toString()));
             p.setDate(new Date(cvdate.getDate()));
+            Log.d("hello", etHourOfStart.getText().toString());
+            Log.d("hello", etMinuteOfStart.getText().toString());
+
             p.setHourOfStart(new Time(Integer.parseInt(etHourOfStart.getText().toString()),Integer.parseInt(etMinuteOfStart.getText().toString()),0));
             p.setTools(ettools.getText().toString());
             p.setTimeOfTour(Double.parseDouble(etTimeofTour.getText().toString()));
