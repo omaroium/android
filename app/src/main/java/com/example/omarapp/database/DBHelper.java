@@ -3,25 +3,16 @@ package com.example.omarapp.database;
 
 
 import static com.example.omarapp.database.QueryString.*;
-import static com.example.omarapp.database.TablesString.ProductTable.*;
 
-import android.annotation.SuppressLint;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.database.DataSetObserver;
+
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.BaseColumns;
+
 
 public  class DBHelper {
-    private static final String DATABASE_NAME = "MyProject.db";
+    private static final String DATABASE_NAME = "OmarDb.db";
     private static final int DATABASE_VERSION = 1;
 
 
@@ -40,7 +31,7 @@ public  class DBHelper {
 
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
-            sqLiteDatabase.execSQL(SQL_CREATE_PRODUCT);
+            //
 
         }
 

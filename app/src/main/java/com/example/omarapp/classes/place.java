@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.widget.Toast;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Arrays;
 
 import static com.example.omarapp.database.TablesString.ProductTable.*;
@@ -17,8 +19,12 @@ public class place implements SqlInterface
 
     private String Name;
     private String Place;
-    private Date date;
-    private Time HourOfStart;
+
+
+
+    private String date;
+
+    private String HourOfStart;
     private double TimeOfTour;
 
     private double Price;
@@ -52,12 +58,8 @@ public class place implements SqlInterface
         this.CurrentVisit=p.getCurrentVisit();
         this.Tools=p.getTools();
         this.imageByte=p.getImageByte();
-
-
-
-
     }
-    public place(String Name,double TimeOfTour,Date date,Time HourOfStart,int MaxVisit,String Place,double Price,String Tools
+    public place(String Name,double TimeOfTour,String date,String HourOfStart,int MaxVisit,String Place,double Price,String Tools
     ,byte[]imageByte) {
 
         this.Name=Name;
@@ -90,9 +92,9 @@ public class place implements SqlInterface
         values.put(COLUMN_MAXVISITS, MaxVisit);
         values.put(COLUMN_PLACE_IMAGE, imageByte);
         values.put(COLUMN_CURRENT_VISITS, CurrentVisit);
-        values.put(TIEOFTOUR, TIEOFTOUR);
-        values.put(COLUMN_DATE, date.getTime());
-        values.put(COLUMN_HOUROFSTART, HourOfStart.getTime());
+        values.put(TIEOFTOUR, TimeOfTour);
+        values.put(COLUMN_DATE, date);
+        values.put(COLUMN_HOUROFSTART, HourOfStart);
         values.put(COLUMN_TOOLS, Tools);
 
 
@@ -124,9 +126,9 @@ public class place implements SqlInterface
         values.put(COLUMN_MAXVISITS, MaxVisit);
         values.put(COLUMN_PLACE_IMAGE, imageByte);
         values.put(COLUMN_CURRENT_VISITS, CurrentVisit);
-        values.put(TIEOFTOUR, TIEOFTOUR);
-        values.put(COLUMN_DATE, date.toString());
-        values.put(COLUMN_HOUROFSTART, HourOfStart.toString());
+        values.put(TIEOFTOUR, TimeOfTour);
+        values.put(COLUMN_DATE, date);
+        values.put(COLUMN_HOUROFSTART, HourOfStart);
         values.put(COLUMN_TOOLS, Tools);
 
 // Which row to update, based on the title
@@ -169,21 +171,40 @@ public class place implements SqlInterface
                 sortOrder);
         return c;
     }
+    public Cursor SelectById(SQLiteDatabase db, String id) {
+        String[] projection = {
+                BaseColumns._ID,
+                COLUMN_PLACE_NAME,
+                COLUMN_PLACE_DESCRIPTION,
+                COLUMN_PLACE_IMAGE,
+                COLUMN_MAXVISITS,
+                COLUMN_CURRENT_VISITS,
+                TIEOFTOUR,
+                COLUMN_DATE,
+                COLUMN_HOUROFSTART,
+                COLUMN_TOOLS,
+                COLUMN_PRICE,
+                COLUMN_VISITS
+        };
+        String selection = BaseColumns._ID + " = ?";
+        String[] selectionArgs = {id};
 
+        Cursor c = db.query(
+                TABLE_PLACE,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null  );
+        return c;
+    }
     public void setName(String name) {
         Name = name;
     }
 
     public void setPlace(String place) {
         Place = place;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public void setHourOfStart(Time hourOfStart) {
-        HourOfStart = hourOfStart;
     }
 
     public void setTimeOfTour(double timeOfTour) {
@@ -218,34 +239,6 @@ public class place implements SqlInterface
         this.imageByte = imageByte;
     }
 
-    public Cursor SelectById(SQLiteDatabase db, String id) {
-        String[] projection = {
-                BaseColumns._ID,
-                COLUMN_PLACE_NAME,
-                COLUMN_PLACE_DESCRIPTION,
-                COLUMN_PLACE_IMAGE,
-                COLUMN_MAXVISITS,
-                COLUMN_CURRENT_VISITS,
-                TIEOFTOUR,
-                COLUMN_DATE,
-                COLUMN_HOUROFSTART,
-                COLUMN_TOOLS,
-                COLUMN_PRICE,
-                COLUMN_VISITS
-        };
-        String selection = BaseColumns._ID + " = ?";
-        String[] selectionArgs = {id};
-
-        Cursor c = db.query(
-                TABLE_PLACE,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                selectionArgs,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null  );
-        return c;
-    }
 
 
     public String getName() {
@@ -256,13 +249,6 @@ public class place implements SqlInterface
         return TimeOfTour;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public Time getHourOfStart() {
-        return HourOfStart;
-    }
 
     public int getVisitNum() {
         return VisitNum;
@@ -295,4 +281,21 @@ public class place implements SqlInterface
     public byte[] getImageByte() {
         return imageByte;
     }
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getHourOfStart() {
+        return HourOfStart;
+    }
+
+    public void setHourOfStart(String hourOfStart) {
+        HourOfStart = hourOfStart;
+    }
+
+
 }

@@ -2,33 +2,35 @@ package com.example.omarapp.admin;
 
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
+
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.omarapp.classes.place;
 import com.example.omarapp.database.DBHelper;
 import com.example.omarapp.R;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
 
-import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_CURRENT_VISITS;
+
+
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_DATE;
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_HOUROFSTART;
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_MAXVISITS;
@@ -37,34 +39,34 @@ import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLAC
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_NAME;
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PRICE;
 import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_TOOLS;
-import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_VISITS;
+import static com.example.omarapp.database.QueryString.SQL_CREATE_PRODUCT;
 import static com.example.omarapp.database.TablesString.ProductTable.TIEOFTOUR;
 
-public class AddProductActivity extends AppCompatActivity implements View.OnClickListener, CalendarView.OnDateChangeListener {
+public class AddProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static int RESULT_LOAD_IMAGE = 1;
     EditText etname,etPlace,etprice,ettools,etHourOfStart,etMinuteOfStart,etTimeofTour,etMaxVisit;
     ImageButton imageButton;
-    CalendarView cvdate;
-    Button btadd,btupdate,btdelete;
+    Button btadd,btupdate,btdelete,btshowcalnder,btshowtime;
     place p;
     byte[] image;
     boolean SelectedNewImage;
     String selectedId;
     Uri selectedImageUri;
     DBHelper dbHelper;
-
-    Date date = new Date(0);
+    TextView tvdate,tvtime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
         etname = findViewById(R.id.etProdName);
         etPlace = findViewById(R.id.etPlace);
-        cvdate = findViewById(R.id.cvDate);
-        cvdate.setOnDateChangeListener(this);
-        etHourOfStart = findViewById(R.id.etHour);
-        etMinuteOfStart = findViewById(R.id.etMinute);
+        btshowcalnder = findViewById(R.id.btShowCalender);
+        btshowtime = findViewById(R.id.btShowTime);
+        btshowtime.setOnClickListener(this);
+        btshowcalnder.setOnClickListener(this);
+        tvdate = findViewById(R.id.tvDate);
+        tvtime = findViewById(R.id.tvShowTime);
         etprice = findViewById(R.id.etPrice);
         ettools = findViewById(R.id.etTools);
         etTimeofTour=findViewById(R.id.TimeofTour);
@@ -79,7 +81,6 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         btdelete.setOnClickListener(this);
         imageButton.setOnClickListener(this);
         dbHelper = new DBHelper(this);
-    
         Intent i = getIntent();
         if(i.getStringExtra("Selected_Id")==null) {
             btdelete.setVisibility(View.GONE);
@@ -108,8 +109,8 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             etprice.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_PRICE)));
             etMaxVisit.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_MAXVISITS)));
             etTimeofTour.setText(c.getString(c.getColumnIndexOrThrow(TIEOFTOUR)));
-            cvdate.setDate(c.getLong(c.getColumnIndexOrThrow(COLUMN_DATE)));
-            etHourOfStart.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_HOUROFSTART)));
+            tvdate.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_DATE)));
+            tvtime.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_HOUROFSTART)));
             ettools.setText(c.getString(c.getColumnIndexOrThrow(COLUMN_TOOLS)));
 
             image = c.getBlob(c.getColumnIndexOrThrow(COLUMN_PLACE_IMAGE));
@@ -126,12 +127,10 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
 
             dbHelper.OpenWriteAble();
             dbHelper = new DBHelper(this);
-            Time time=new Time(Integer.parseInt(etHourOfStart.getText().toString()),
-                    Integer.parseInt(etMinuteOfStart.getText().toString()),0);
             byte[] data  = imageViewToByte();
             p=new place(etname.getText().toString(),
                     Double.parseDouble(etTimeofTour.getText().toString()),
-                    date,time,
+                    tvdate.getText().toString(),tvtime.getText().toString(),
                     Integer.parseInt(etMaxVisit.getText().toString()),
                     etPlace.getText().toString(),
                     Double.parseDouble(etprice.getText().toString()),
@@ -146,24 +145,20 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             }
         }
         if(view.getId()==R.id.btUpdate){
-            Log.d("hello", "hi");
+
             p.setPid(Integer.parseInt(selectedId));
             p.setName(etname.getText().toString());
-            Log.d("hello", etname.getText().toString());
             p.setPlace(etPlace.getText().toString());
             p.setPrice(Double.parseDouble(etprice.getText().toString()));
-            p.setDate(new Date(cvdate.getDate()));
-            Log.d("hello", etHourOfStart.getText().toString());
-            Log.d("hello", etMinuteOfStart.getText().toString());
-
-            p.setHourOfStart(new Time(Integer.parseInt(etHourOfStart.getText().toString()),Integer.parseInt(etMinuteOfStart.getText().toString()),0));
+            p.setDate(tvdate.getText().toString());
+            p.setHourOfStart(tvtime.getText().toString());
             p.setTools(ettools.getText().toString());
+            
             p.setTimeOfTour(Double.parseDouble(etTimeofTour.getText().toString()));
             p.setMaxVisit(Integer.parseInt(etMaxVisit.getText().toString()));
             p.setImageByte(image);
 
             if(SelectedNewImage) {
-                Log.d("kdsl","psadholih");
                 p.setImageByte(imageViewToByte());
             }
             dbHelper.OpenWriteAble();
@@ -180,6 +175,12 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this,ShowPlace.class);
             startActivity(i);
+        }
+        if(view.getId()==R.id.btShowCalender){
+            openDatePicker();
+        }
+        if(view.getId()==R.id.btShowTime){
+             openTimePicker();
         }
 
         if(view.getId()==R.id.imageButton){
@@ -212,8 +213,34 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    @Override
-    public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-        date = new Date(year,month,day);
+    private void openDatePicker(){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this , new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
+                //Showing the picked value in the textView
+                tvdate.setText(String.valueOf(year)+ "."+String.valueOf(month)+ "."+String.valueOf(day));
+
+            }
+        }, 2023, 11, 14);
+
+        datePickerDialog.show();
+    }
+
+
+    private void openTimePicker(){
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(android.widget.TimePicker timePicker, int hour, int minute) {
+
+
+                //Showing the picked value in the textView
+                tvtime.setText(String.valueOf(hour)+ ":"+String.valueOf(minute));
+
+            }
+        }, 15, 30, false);
+
+        timePickerDialog.show();
     }
 }

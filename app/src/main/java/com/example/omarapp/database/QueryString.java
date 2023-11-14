@@ -2,7 +2,6 @@ package com.example.omarapp.database;
 import com.example.omarapp.database.TablesString.*;
 public class QueryString {
 
-
     //region Create Tables
     public static final String SQL_CREATE_PRODUCT =
             "CREATE TABLE " + ProductTable.TABLE_PLACE + " (" +
@@ -12,11 +11,11 @@ public class QueryString {
                     ProductTable.COLUMN_MAXVISITS + " INTEGER," +
                     ProductTable.COLUMN_PLACE_IMAGE + " BLOB,"+
                     ProductTable.COLUMN_CURRENT_VISITS+" INTEGER," +
-                    ProductTable.TIEOFTOUR+" STRING,"
-                    +ProductTable.COLUMN_DATE+" DATE,"+
-                    ProductTable.COLUMN_HOUROFSTART+" STRING,"+
+                    ProductTable.TIEOFTOUR+" DOUBLE,"
+                    +ProductTable.COLUMN_DATE+" TEXT,"+
+                    ProductTable.COLUMN_HOUROFSTART+" TEXT,"+
                     ProductTable.COLUMN_PRICE+" DOUBLE,"+
-                    ProductTable.COLUMN_TOOLS+" STRING,"+
+                    ProductTable.COLUMN_TOOLS+" TEXT,"+
                     ProductTable.COLUMN_VISITS+" INTEGER);";
 
     public static final String SQL_CREATE_CART =
