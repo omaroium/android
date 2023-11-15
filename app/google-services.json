@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "761873212994",
+    "project_id": "haifaproj-cd6ed",
+    "storage_bucket": "haifaproj-cd6ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761873212994:android:0b68466a43f1b72dbbefdb",
+        "android_client_info": {
+          "package_name": "com.example.omarapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSJgrEtc0IVsdEC_AL7ZNEXst-eRHyGPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
