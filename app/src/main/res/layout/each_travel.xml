@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/eachShoeIv"
+            android:id="@+id/eachplaceIv"
             android:layout_width="0dp"
             android:layout_height="130dp"
             android:scaleType="centerCrop"
@@ -25,7 +25,7 @@
              />
 
         <TextView
-            android:id="@+id/eachShoeName"
+            android:id="@+id/tvNameOfProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -34,10 +34,10 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eachShoeIv" />
+            app:layout_constraintTop_toBottomOf="@+id/eachplaceIv" />
 
         <TextView
-            android:id="@+id/eachShoeBrandNameTv"
+            android:id="@+id/tvDescriptionOfProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -45,10 +45,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eachShoeName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNameOfProduct" />
 
         <ImageView
-            android:id="@+id/eachShoeAddToCartBtn"
+            android:id="@+id/eachAddToCartBtn"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="0dp"
@@ -56,11 +56,11 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eachShoeBrandNameTv"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescriptionOfProduct"
             app:srcCompat="@drawable/baseline_shopping_cart_checkout_24" />
 
         <TextView
-            android:id="@+id/eachShoePriceTv"
+            android:id="@+id/eachPriceTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -72,7 +72,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/eachShoeAddToCartBtn" />
+            app:layout_constraintTop_toTopOf="@+id/eachAddToCartBtn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
