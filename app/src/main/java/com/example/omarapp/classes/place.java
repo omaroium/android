@@ -74,6 +74,20 @@ public class place implements SqlInterface
 
 
     }
+    public place(int id,String Name,double TimeOfTour,String date,String HourOfStart,int MaxVisit,String Place,double Price,String Tools
+            ,byte[]imageByte) {
+
+        this.Name=Name;
+        this.TimeOfTour=TimeOfTour;
+        this.date=date;
+        this.HourOfStart=HourOfStart;
+        this.MaxVisit=MaxVisit;
+        this.Place=Place;
+        this.Price=Price;
+        this.Tools=Tools;
+        this.imageByte=imageByte;
+        this.Pid =id;
+    }
 
     public place() {
 

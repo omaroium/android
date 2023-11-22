@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.omarapp.ProductInfo;
 import com.example.omarapp.R;
 
 import java.util.List;
@@ -67,6 +68,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvDescriptionOfProduct = itemView.findViewById(R.id.tvDescriptionOfProduct);
             eachprice = itemView.findViewById(R.id.eachPriceTv);
             imageOfProduct = itemView.findViewById(R.id.eachplaceIv);
+
             itemView.setOnClickListener(this);
 
         }
