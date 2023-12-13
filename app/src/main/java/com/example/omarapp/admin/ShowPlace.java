@@ -90,12 +90,15 @@ public class ShowPlace extends AppCompatActivity implements AdapterView.OnItemCl
             db.Close();
         }
 
-
+/* if chosen a product from pruduct list */
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            selected_product = product_info[i];
+
+            selected_product = product_info[i];//save a chosen product
             Intent in = new Intent(this, AddProductActivity.class);
+            //moves you to ao addproduct page
             in.putExtra("Selected_Id", selected_product.getPid() + "");
+            // send the id of the chosen product to addproduct
             startActivity(in);
         }
 

@@ -185,6 +185,7 @@ public class place implements SqlInterface
                 sortOrder);
         return c;
     }
+    //select product with this specific id
     public Cursor SelectById(SQLiteDatabase db, String id) {
         String[] projection = {
                 BaseColumns._ID,

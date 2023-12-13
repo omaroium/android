@@ -10,9 +10,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
+//controls with database
 public  class DBHelper {
+    //define database name and its version
     private static final String DATABASE_NAME = "OmarDb.db";
+
     private static final int DATABASE_VERSION = 1;
 
 
@@ -50,15 +52,17 @@ public  class DBHelper {
         mContext = context;
         dbhelper = new DataBaseHelper(mContext);
     }
+    // open the database to write in it
     public DBHelper OpenWriteAble() throws SQLException{
         db = dbhelper.getWritableDatabase();
         return this;
     }
+    //open the database to read from it
     public DBHelper OpenReadAble() throws SQLException{
         db = dbhelper.getReadableDatabase();
         return this;
     }
-
+// closes the database
     public void Close(){
         dbhelper.close();
     }

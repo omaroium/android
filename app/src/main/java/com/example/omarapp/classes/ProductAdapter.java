@@ -54,6 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public int getItemCount() {
         return productList.size();
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         // here we will find the views on which we will inflate our data
