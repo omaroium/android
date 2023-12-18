@@ -146,14 +146,14 @@ public class place implements SqlInterface
         values.put(COLUMN_TOOLS, Tools);
 
 // Which row to update, based on the title
-        String selection = BaseColumns._ID + " LIKE ?";
-        String[] selectionArgs = { id+"" };
+            String selection = BaseColumns._ID + " LIKE ?";
+            String[] selectionArgs = { id+"" };
 
-        return  db.update(
-                TABLE_PLACE,
-                values,
-                selection,
-                selectionArgs);
+            return  db.update(
+                    TABLE_PLACE,
+                    values,
+                    selection,
+                    selectionArgs);
 
     }
 
