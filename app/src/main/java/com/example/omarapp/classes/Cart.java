@@ -6,7 +6,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import static com.example.omarapp.database.TablesString.CartTable.*;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_CURRENT_VISITS;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_DATE;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_HOUROFSTART;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_MAXVISITS;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_DESCRIPTION;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_IMAGE;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_NAME;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PRICE;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_TOOLS;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_VISITS;
 import static com.example.omarapp.database.TablesString.ProductTable.TABLE_PLACE;
+import static com.example.omarapp.database.TablesString.ProductTable.TIEOFTOUR;
 
 
 public class Cart implements SqlInterface{
@@ -58,6 +69,24 @@ public class Cart implements SqlInterface{
 
     @Override
     public Cursor Select(SQLiteDatabase db) {
-        return null;
+
+
+        String[] projection = {
+                BaseColumns._ID,
+                COLUMN_PRODUCT_ID,
+                COLUMN_USER_ID,
+                COLUMN_PRODUCT_QUANTITY,
+        };
+// How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                BaseColumns._ID + " DESC";
+        Cursor c = db.query(TABLE_CART,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder);
+        return c;
     }
 }
