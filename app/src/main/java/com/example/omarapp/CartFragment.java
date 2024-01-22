@@ -2,12 +2,6 @@ package com.example.omarapp;
 
 import android.database.Cursor;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +16,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.omarapp.database.TablesString.CartTable.*;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.omarapp.database.TablesString.CartTable.COLUMN_PRODUCT_ID;
+import static com.example.omarapp.database.TablesString.CartTable.COLUMN_PRODUCT_QUANTITY;
+import static com.example.omarapp.database.TablesString.CartTable.COLUMN_USER_ID;
+import static com.example.omarapp.database.TablesString.CartTable._ID;
 
 
 public class CartFragment extends Fragment {
@@ -53,7 +55,7 @@ public class CartFragment extends Fragment {
             p2 = new Cart(c.getInt(c.getColumnIndexOrThrow(_ID)),
                     c.getString(c.getColumnIndexOrThrow(COLUMN_USER_ID)),
                     c.getInt(c.getColumnIndexOrThrow(COLUMN_PRODUCT_ID)),
-                    c.getInt(c.getColumnIndexOrThrow(COLUMN_AMOUNT)));
+                    c.getInt(c.getColumnIndexOrThrow(COLUMN_PRODUCT_QUANTITY)));
             cartList.add(p2);
             c.moveToNext();
         }
@@ -69,7 +71,7 @@ public class CartFragment extends Fragment {
                 dbHelper.OpenWriteAble();
                 orderplace.setVisibility(View.VISIBLE);
                 for(Cart cart : cartList){
-                    cart.Delete(dbHelper.getDb(),cart.getCartid());
+                    cart.Delete(dbHelper.getDb(), String.valueOf(cart.getCartid()));
                 }
             }
         });

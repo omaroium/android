@@ -1,13 +1,6 @@
 package com.example.omarapp;
 
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,12 +8,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.omarapp.admin.AddProductActivity;
 import com.example.omarapp.admin.ShowPlace;
+import com.example.omarapp.database.DBHelper;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.ktx.Firebase;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import static com.example.omarapp.database.QueryString.SQL_CREATE_CART;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -33,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        DBHelper dbHelper = new DBHelper(this);
+        dbHelper.OpenWriteAble();
+        dbHelper.getDb().execSQL(SQL_CREATE_CART);
+        dbHelper.Close();
         Toolbar toolbar = findViewById(R.id.toolbar); //Ignore red line errors
         setSupportActionBar(toolbar);
         mAuth = FirebaseAuth.getInstance();
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new settingsfrag()).commit();
         }
         else if(R.id.nav_share==item.getItemId()){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new cartfrag()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CartFragment()).commit();
         }
         else if(R.id.nav_about==item.getItemId()){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new info()).commit();

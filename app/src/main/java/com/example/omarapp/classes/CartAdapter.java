@@ -1,32 +1,29 @@
-package com.example.omarapp.Classes;
+package com.example.omarapp.classes;
+
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.omarapp.classes.Cart;
-import com.example.omarapp.database.DBHelper;
-import com.example.omarapp.database.TablesString;
 import com.example.omarapp.R;
-
-import com.example.omarapp.UserPages.DetailedActivity;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.omarapp.database.DBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.omarapp.database.TablesString.ProductTable.*;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_MAXVISITS;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_IMAGE;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PLACE_NAME;
+import static com.example.omarapp.database.TablesString.ProductTable.COLUMN_PRICE;
+import static com.example.omarapp.database.TablesString.ProductTable.TIEOFTOUR;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
@@ -67,21 +64,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         place p = new place();
         DBHelper dbHelper = new DBHelper(view.getContext());
         dbHelper.OpenReadAble();
-        Cursor c = p.SelectById(dbHelper.getDb(),pid);
+        Cursor c = p.SelectById(dbHelper.getDb(), String.valueOf(pid));
         c.moveToFirst();
         if(c!=null){
-            max = c.getInt(c.getColumnIndexOrThrow(COLUMN_PRODUCT_STOCK));
-            String typeOfProduct = c.getString(c.getColumnIndexOrThrow(COLUMN_PRODUCT_TYPE));
-            int yop = c.getInt(c.getColumnIndexOrThrow(COLUMN_PRODUCT_YOP));
-            double price =c.getDouble(c.getColumnIndexOrThrow(COLUMN_PRODUCT_SALEPRICE));
+            max = c.getInt(c.getColumnIndexOrThrow(COLUMN_MAXVISITS));
+            String typeOfProduct = c.getString(c.getColumnIndexOrThrow(COLUMN_PLACE_NAME));
+            int timeoftour = c.getInt(c.getColumnIndexOrThrow(TIEOFTOUR));
+            double price =c.getDouble(c.getColumnIndexOrThrow(COLUMN_PRICE));
             listprice.add(price);
-            byte[] images = c.getBlob(c.getColumnIndexOrThrow(COLUMN_PRODUCT_IMAGE));
+            byte[] images = c.getBlob(c.getColumnIndexOrThrow(COLUMN_PLACE_IMAGE));
             Bitmap bm = BitmapFactory.decodeByteArray(images, 0 ,images.length);
             sum+=price*amount;
             holder.totalprice.setText(sum + "$");
             holder.tvTypeOfProduct.setText(typeOfProduct);
             holder.tvJewelryPrice.setText(price+"");
-            holder.tvJewelryYOP.setText(yop+"");
+            holder.tvJewelryYOP.setText(timeoftour+"");
             holder.imageOfProduct.setImageBitmap(bm);
             holder.tvAmount.setText(amount+"");
         }
@@ -118,7 +115,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     DBHelper dbHelper = new DBHelper(context);
                     dbHelper.OpenWriteAble();
                     sum = 0;
-                    cartList.get(getPosition()).Delete(dbHelper.getDb(),cartList.get(getPosition()).getCartid());
+                    cartList.get(getPosition()).Delete(dbHelper.getDb(), String.valueOf(cartList.get(getPosition()).getCartid()));
                     cartList.remove(getPosition());
                     notifyDataSetChanged();
                     dbHelper.Close();
